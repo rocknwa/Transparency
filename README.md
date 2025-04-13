@@ -1,7 +1,7 @@
 # Election Voting Smart Contract
 
-**Author:** scorpion@DESKTOP-I7EFSIL  
-**License:** [MIT](LICENSE)
+**Author:** [Therock Ani](anitherock44@gmail.com)
+
 
 ---
 
@@ -97,18 +97,15 @@ The project leverages OpenZeppelin’s `Ownable` contract to enforce administrat
 
 ### Prerequisites
 
-- **Node.js & npm/yarn**: For JavaScript tooling and potential frontend integrations.
 - **Foundry**:  
   Follow the [Foundry Installation Guide](https://github.com/foundry-rs/foundry) to install Forge, Cast, and Anvil.
-- **Solidity Compiler (Solc)**: Version 0.8.26 is used in this project.
-- **OpenZeppelin Contracts**: Integrated via the local `lib` folder or package manager.
 
 ### Steps
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-org/election-voting.git
-   cd election-voting
+   git clone  https://github.com/rocknwa/Transparency.git
+   cd Transparency
    ```
 
 2. **Install Foundry (if not already installed):**
@@ -118,11 +115,9 @@ The project leverages OpenZeppelin’s `Ownable` contract to enforce administrat
    ```
 
 3. **Install Dependencies:**
-   If you are using a package manager, install OpenZeppelin Contracts:
+   Install OpenZeppelin Contracts:
    ```bash
-   npm install @openzeppelin/contracts
-   # or
-   yarn add @openzeppelin/contracts
+   forge install openzeppelin/openzeppelin-contracts@v4.8.3 --no-commit
    ```
 
 4. **Build the Project:**
@@ -184,17 +179,12 @@ The output will show details on gas usage and pass/fail status for each test.
 │   └── ElectionVoting.t.sol      # Comprehensive test suite using Forge
 ├── README.md                     # Project documentation
 ├── foundry.toml                  # Foundry configuration file
-└── package.json                  # Project package configuration (if using npm/yarn)
 ```
 
 ---
 
 ## Deployment
 
-For production deployments on testnets or mainnet, ensure that you:
-
-- **Conduct a thorough audit** of the contract code.
-- **Configure deployment parameters** (e.g., gas limits, optimizations) appropriately.
 - **Leverage deployment scripts** (found in the `script` directory) for reproducibility.
 
 Deployment can be performed using Foundry’s `forge script` command. For instance:
@@ -215,8 +205,6 @@ We welcome contributions from the community! Please follow these guidelines:
 2. Write tests for your changes.
 3. Ensure that your code adheres to the Solidity style guide.
 4. Submit a pull request describing your changes.
-
-For detailed contributing guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 
 ---
