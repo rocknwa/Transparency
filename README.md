@@ -1,7 +1,3 @@
-Below is an example of an industry standard, professional README for your Voting/Election smart contract project. This document outlines the project overview, architecture, installation instructions, usage guidelines, testing procedures, and more. You can adjust and expand the sections as needed for your team's requirements.
-
----
-
 # Election Voting Smart Contract
 
 **Author:** scorpion@DESKTOP-I7EFSIL  
@@ -27,7 +23,6 @@ Below is an example of an industry standard, professional README for your Voting
   - [Project Structure](#project-structure)
   - [Deployment](#deployment)
   - [Contributing](#contributing)
-  - [License](#license)
   - [Acknowledgements](#acknowledgements)
 
 ---
@@ -223,11 +218,6 @@ We welcome contributions from the community! Please follow these guidelines:
 
 For detailed contributing guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
----
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
 
 ---
 
@@ -237,6 +227,4 @@ This project is licensed under the [MIT License](LICENSE).
 - **Foundry & Cast:** For an excellent development environment for Solidity.
 - **Community and Reviewers:** For their feedback and contributions to improve this project.
 
----
-
-This README provides detailed instructions and guidelines to help developers, auditors, and stakeholders understand, deploy, and contribute to the Election Voting smart contract system. It meets industry standards by covering installation steps, usage, testing, and security best practices.
+ 
