@@ -1,3 +1,10 @@
+
+// The contract is designed to be secure and efficient, following best practices in Solidity development.
+// It includes proper access control, event logging, and state management to ensure a smooth election process.
+// The use of OpenZeppelin's Ownable contract ensures that only the owner can perform certain administrative actions.
+// The contract is modular, allowing for easy updates and maintenance.
+// The election process is transparent, with clear functions for adding candidates, verifying voters, and casting votes.
+
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
@@ -193,10 +200,6 @@ function isGovtOfficial(address _official) public view returns (bool) {
         voteCount = candidates[leadingIndex].voteCount;
     }
 }
-// The contract is designed to be secure and efficient, following best practices in Solidity development.
-// It includes proper access control, event logging, and state management to ensure a smooth election process.
-// The use of OpenZeppelin's Ownable contract ensures that only the owner can perform certain administrative actions.
-// The contract is modular, allowing for easy updates and maintenance.
-// The election process is transparent, with clear functions for adding candidates, verifying voters, and casting votes.
+ 
 
  
