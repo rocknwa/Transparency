@@ -1,4 +1,3 @@
-
 // The contract is designed to be secure and efficient, following best practices in Solidity development.
 // It includes proper access control, event logging, and state management to ensure a smooth election process.
 // The use of OpenZeppelin's Ownable contract ensures that only the owner can perform certain administrative actions.
@@ -25,7 +24,6 @@ contract ElectionVoting is Ownable {
     mapping(uint256 => bool) private allowedVoterIDs; // Approved national IDs for verification
     mapping(uint256 => bool) private usedIDs; // Tracks if a voter ID has already been used
     mapping(address => bool) public verifiedAddresses; // Tracks verified voter addresses
-    address[] public voters; // List of verified voters for resetting vote statuses
 
     // Government official mappings
     mapping(address => bool) public govtOfficials;
@@ -35,10 +33,12 @@ contract ElectionVoting is Ownable {
         string name;
         uint256 voteCount;
     }
+
     Candidate[] public candidates;
 
     // Tracks if an address has already voted
-    mapping(address => bool) public hasVoted;
+    uint256 public electionId;
+    mapping(address => uint256) public lastVotedElection;
 
     // --- Events ---
     event GovtOfficialAdded(address indexed official);
@@ -68,9 +68,9 @@ contract ElectionVoting is Ownable {
         _;
     }
 
-function isGovtOfficial(address _official) public view returns (bool) {
-    return govtOfficials[_official];
-}
+    function isGovtOfficial(address _official) public view returns (bool) {
+        return govtOfficials[_official];
+    }
 
     function isVerifiedVoter(address _voter) public view returns (bool) {
         return verifiedAddresses[_voter];
@@ -79,7 +79,7 @@ function isGovtOfficial(address _official) public view returns (bool) {
     // --- Administration Functions ---
     /// @notice Adds a government official who may manage allowed voter IDs.
     /// @param _official Address of the official.
-    function addGovtOfficial(address _official)  external onlyOwner {
+    function addGovtOfficial(address _official) external onlyOwner {
         govtOfficials[_official] = true;
         emit GovtOfficialAdded(_official);
     }
@@ -105,7 +105,7 @@ function isGovtOfficial(address _official) public view returns (bool) {
         require(allowedVoterIDs[_id], "ID is not recognized");
 
         verifiedAddresses[msg.sender] = true;
-        voters.push(msg.sender);
+
         usedIDs[_id] = true;
         emit VoterVerified(msg.sender, _id);
     }
@@ -114,9 +114,10 @@ function isGovtOfficial(address _official) public view returns (bool) {
     /// @param _durationInMinutes Duration of the election in minutes.
     function startElection(uint256 _durationInMinutes) external onlyOwner {
         require(!electionOngoing || block.timestamp >= electionEndTime, "Election is already active");
-        uint256 duration = _durationInMinutes * 60; // Convert minutes to seconds
+        uint256 duration = _durationInMinutes * 60;
         electionEndTime = block.timestamp + duration;
         electionOngoing = true;
+        electionId += 1; // increment electionId to start a new voting session
         emit ElectionStarted(electionEndTime);
     }
 
@@ -146,12 +147,14 @@ function isGovtOfficial(address _official) public view returns (bool) {
     /// @param _candidateNumber The 1-based index of the candidate.
     function vote(uint256 _candidateNumber) external electionActive {
         require(verifiedAddresses[msg.sender], "Voter not verified");
-        require(!hasVoted[msg.sender], "You have already voted");
+        require(lastVotedElection[msg.sender] < electionId, "You have already voted");
+        lastVotedElection[msg.sender] = electionId;
+
         require(_candidateNumber > 0 && _candidateNumber <= candidates.length, "Invalid candidate number");
 
         uint256 candidateIndex = _candidateNumber - 1;
         candidates[candidateIndex].voteCount += 1;
-        hasVoted[msg.sender] = true;
+
         emit Voted(msg.sender, candidateIndex);
     }
 
@@ -174,13 +177,6 @@ function isGovtOfficial(address _official) public view returns (bool) {
 
         delete candidates;
 
-        // Reset the 'hasVoted' status for each verified voter.
-        for (uint256 i = 0; i < voters.length; i++) {
-            hasVoted[voters[i]] = false;
-        }
-        // Clear voters list to start fresh.
-        delete voters;
-
         electionOngoing = false;
         emit ElectionReset();
     }
@@ -200,6 +196,3 @@ function isGovtOfficial(address _official) public view returns (bool) {
         voteCount = candidates[leadingIndex].voteCount;
     }
 }
- 
-
- 
