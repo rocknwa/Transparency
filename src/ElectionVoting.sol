@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import "../lib/openzeppelin-contracts/contracts/access/Ownable.sol";
+import "openzeppelin-contracts/contracts/access/Ownable.sol";
 
 /// @title ElectionVoting - A secure election voting system following industry standards.
 /// @notice This contract allows government officials to add allowed voter IDs, verifies voters, manages candidate nominations, voting, and resets election data.

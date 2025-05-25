@@ -6,18 +6,35 @@ A secure, transparent, and decentralized election voting system built on Ethereu
 
 ## Table of Contents
 
-- [Project Overview](#project-overview)
-- [Problem Statement](#problem-statement)
-- [How This Project Addresses Election Malpractice](#how-this-project-addresses-election-malpractice)
-- [Features](#features)
-- [Technical Details](#technical-details)
-- [Smart Contract Architecture](#smart-contract-architecture)
-- [Setup and Deployment](#setup-and-deployment)
-- [Testing](#testing)
-- [Future Enhancements](#future-enhancements)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
+- [Transparency: A Secure Blockchain-Based Voting System](#transparency-a-secure-blockchain-based-voting-system)
+  - [Table of Contents](#table-of-contents)
+  - [Project Overview](#project-overview)
+  - [Problem Statement](#problem-statement)
+  - [How This Project Addresses Election Malpractice](#how-this-project-addresses-election-malpractice)
+    - [Decentralized and Immutable Ledger](#decentralized-and-immutable-ledger)
+    - [Voter Verification](#voter-verification)
+    - [Transparent Process](#transparent-process)
+    - [Access Control](#access-control)
+    - [Election Reset Mechanism](#election-reset-mechanism)
+    - [Auditable Code](#auditable-code)
+  - [Features](#features)
+  - [Technical Details](#technical-details)
+    - [Key Components](#key-components)
+  - [Smart Contract Architecture](#smart-contract-architecture)
+    - [State Management](#state-management)
+    - [Access Control](#access-control-1)
+    - [Key Functions](#key-functions)
+    - [Events](#events)
+  - [Setup and Deployment](#setup-and-deployment)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+    - [Deployment](#deployment)
+    - [Interacting with the Contract](#interacting-with-the-contract)
+  - [Testing](#testing)
+  - [Future Enhancements](#future-enhancements)
+  - [Contributing](#contributing)
+  - [License](#license)
+  - [Contact](#contact)
 
 ---
 
@@ -262,4 +279,4 @@ This project is licensed under the MIT License ([LICENSE](LICENSE)).
 
 For inquiries, collaboration, or feedback:
 
-- Email: [anitherock44@gmail.com](mailto:anitherock44@gmail.com)
+- Email: [anitherock44@gmail.com](anitherock44@gmail.com)
