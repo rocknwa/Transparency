@@ -1,28 +1,21 @@
-// The contract is designed to be secure and efficient, following best practices in Solidity development.
-// It includes proper access control, event logging, and state management to ensure a smooth election process.
-// The use of OpenZeppelin's Ownable contract ensures that only the owner can perform certain administrative actions.
-// The contract is modular, allowing for easy updates and maintenance.
-// The election process is transparent, with clear functions for adding candidates, verifying voters, and casting votes.
-
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
 import "openzeppelin-contracts/contracts/access/Ownable.sol";
 
 /// @title ElectionVoting - A secure election voting system following industry standards.
-/// @notice This contract allows government officials to add allowed voter IDs, verifies voters, manages candidate nominations, voting, and resets election data.
+/// @notice This contract allows government officials to add hashed voter IDs, verifies voters, manages candidate nominations, voting, and resets election data.
 contract ElectionVoting is Ownable {
     // Constants
     uint256 public constant WEEK_DURATION = 2 weeks;
-    //uint256 public constant WEEK_DURATION = 7 days;
 
     // Election state variables
     uint256 public electionEndTime;
     bool public electionOngoing;
 
     // Voter verification mappings
-    mapping(uint256 => bool) private allowedVoterIDs; // Approved national IDs for verification
-    mapping(uint256 => bool) private usedIDs; // Tracks if a voter ID has already been used
+    mapping(bytes32 => bool) private allowedVoterIDHashes; // Approved hashed national IDs for verification
+    mapping(bytes32 => bool) private usedIDHashes; // Tracks if a voter ID hash has already been used
     mapping(address => bool) public verifiedAddresses; // Tracks verified voter addresses
 
     // Government official mappings
@@ -43,8 +36,8 @@ contract ElectionVoting is Ownable {
     // --- Events ---
     event GovtOfficialAdded(address indexed official);
     event GovtOfficialRemoved(address indexed official);
-    event VoterIdAdded(uint256 indexed voterId);
-    event VoterVerified(address indexed voter, uint256 voterId);
+    event VoterIdAdded(bytes32 indexed voterIdHash);
+    event VoterVerified(address indexed voter, bytes32 voterIdHash);
     event ElectionStarted(uint256 indexed endTime);
     event CandidateAdded(string candidateName);
     event Voted(address indexed voter, uint256 candidateIndex);
@@ -91,23 +84,24 @@ contract ElectionVoting is Ownable {
         emit GovtOfficialRemoved(_official);
     }
 
-    /// @notice Allows a government official to add a verified voter ID.
-    /// @param _id The national voter ID to allow.
+    /// @notice Allows a government official to add a hashed voter ID.
+    /// @param _id The national voter ID to allow (will be hashed).
     function addAllowedVoterID(uint256 _id) external onlyOfficial {
-        allowedVoterIDs[_id] = true;
-        emit VoterIdAdded(_id);
+        bytes32 idHash = keccak256(abi.encodePacked(_id));
+        allowedVoterIDHashes[idHash] = true;
+        emit VoterIdAdded(idHash);
     }
 
     /// @notice Verifies the caller as a voter if a valid voter ID is provided.
-    /// @param _id The voter ID to verify.
+    /// @param _id The voter ID to verify (will be hashed).
     function verifyVoter(uint256 _id) external {
-        require(!usedIDs[_id], "ID has already been used for verification");
-        require(allowedVoterIDs[_id], "ID is not recognized");
+        bytes32 idHash = keccak256(abi.encodePacked(_id));
+        require(!usedIDHashes[idHash], "ID has already been used for verification");
+        require(allowedVoterIDHashes[idHash], "ID is not recognized");
 
         verifiedAddresses[msg.sender] = true;
-
-        usedIDs[_id] = true;
-        emit VoterVerified(msg.sender, _id);
+        usedIDHashes[idHash] = true;
+        emit VoterVerified(msg.sender, idHash);
     }
 
     /// @notice Starts an election for a specified duration.
@@ -176,7 +170,6 @@ contract ElectionVoting is Ownable {
         require(block.timestamp >= electionEndTime + WEEK_DURATION, "Reset not allowed yet");
 
         delete candidates;
-
         electionOngoing = false;
         emit ElectionReset();
     }

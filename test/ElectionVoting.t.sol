@@ -40,7 +40,7 @@ contract ElectionVotingTest is Test {
         vm.prank(owner);
         election.addGovtOfficial(govtOfficial);
 
-        // Use govtOfficial to add allowed voter IDs
+        // Use govtOfficial to add allowed voter IDs (hashed internally)
         vm.prank(govtOfficial);
         election.addAllowedVoterID(voterID1);
         vm.prank(govtOfficial);
@@ -82,6 +82,10 @@ contract ElectionVotingTest is Test {
         vm.prank(voter1);
         election.verifyVoter(voterID1);
         assertTrue(election.isVerifiedVoter(voter1), "voter1 should be verified");
+        // Check that the hashed voter ID is marked as used
+       // bytes32 idHash = keccak256(abi.encodePacked(voterID1));
+       // assertTrue(election.allowedVoterIDHashes(idHash), "voterID1 hash should be allowed");
+        // Note: We can't directly access usedIDHashes as it's private, but verification implies it's set
     }
 
     function testVerifyVoterWithUnallowedIDReverts() public {
@@ -195,6 +199,8 @@ contract ElectionVotingTest is Test {
 
     function testVoteTwiceReverts() public {
         // Setup candidates and start election
+       
+
         string[] memory candidateNames = new string[](1);
         candidateNames[0] = "Alice";
         vm.prank(owner);
