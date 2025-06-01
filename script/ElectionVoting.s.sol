@@ -6,7 +6,7 @@ import {ElectionVoting} from "../src/ElectionVoting.sol"; // Import the Election
 import {console} from "forge-std/console.sol";
 
 contract ElectionScript is Script {
-    function setUp() public {}
+    //function setUp() public {}
 
     function run() external {
         // Load deployer's private key from environment

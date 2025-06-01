@@ -231,7 +231,12 @@ The project includes a comprehensive test suite (`ElectionVotingTest.sol`) built
 Run tests using:
 
 ```bash
-forge test
+forge test -vvv
+```
+
+For coverage:
+```bash
+forge coverage
 ```
 
 All tests pass, ensuring the contract's reliability and security.
